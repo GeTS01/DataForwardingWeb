@@ -1,5 +1,4 @@
-﻿using DataForwardingWeb.DTO.Filter;
-using DataForwardingWeb.Repository.Base;
+﻿using DataForwardingWeb.Repository.Base;
 using Domain;
 using Domain.Enum;
 using DTO;

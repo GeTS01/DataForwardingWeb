@@ -19,10 +19,12 @@ namespace Service.Implementation
             Type entityType = typeof(ENTITY);
             var attributes = entityType.CustomAttributes;
             var tableAttribute = attributes.FirstOrDefault(a => a.AttributeType.Equals(typeof(TableAttribute)));
+
             if (tableAttribute == null)
             {
                 throw new Exception("This type is not annotated TableAttribute");
             }
+
             var tableName = tableAttribute.ConstructorArguments[0];
             var deviceFields = typeof(ENTITY).GetProperties();
             var filterFields = filter.GetType().GetProperties();

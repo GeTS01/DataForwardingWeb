@@ -1,11 +1,9 @@
-﻿using DataForwardingWeb.DTO.Filter;
-using DataForwardingWeb.Repository.Base;
+﻿using DataForwardingWeb.Repository.Base;
 using Domain;
 using Domain.Enum;
 using DTO;
 using DTO.Data;
 using DTO.Model;
-using Repository.Repositores;
 using Repository.Repositores.Interfaces;
 
 namespace Service.Implementation

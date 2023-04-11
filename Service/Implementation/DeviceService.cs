@@ -135,12 +135,17 @@ namespace DataForwardingWeb.Service.Implementation
         public override Page<DeviceData, Device> read(int number, int size)
         {
             long totalCount = _deviceRepository.GetAll().Count();
-            return new Page<NetworkData, Network>(
+            return new Page<DeviceData, Device>(
                 number,
                 size,
                 totalCount / size,
                 totalCount,
-                _deviceRepository.GetAll().Skip(number * size).Take(size).Select(x => new NetworkData(x)).ToList() ?? new List<NetworkData>()
+                _deviceRepository
+                .GetAll()
+                .Skip(number * size)
+                .Take(size)
+                .Select(x => new DeviceData(x))
+                .ToList() ?? new List<DeviceData>()
                 );
         }
     }

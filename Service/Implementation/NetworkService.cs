@@ -52,7 +52,12 @@ namespace Service.Implementation
                 size,
                 totalCount / size,
                 totalCount,
-                _networkRepository.GetAll().Skip(number * size).Take(size).Select(x => new NetworkData(x)).ToList() ?? new List<NetworkData>()
+                _networkRepository
+                .GetAll()
+                .Skip(number * size)
+                .Take(size)
+                .Select(x => new NetworkData(x))
+                .ToList() ?? new List<NetworkData>()
                 );
         }
 
