@@ -4,6 +4,9 @@ namespace DataForwardingWeb.Repository.Base
 {
     public interface IRepository<T>
     {
+
+
+
         IQueryable<T> Get(Expression<Func<T, bool>> selector);
         IQueryable<T> GetAll();
         IQueryable<T> ExecuteSelectSql(string sql);
