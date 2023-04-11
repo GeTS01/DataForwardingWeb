@@ -25,7 +25,6 @@ namespace Service.Implementation
             }
             var tableName = tableAttribute.ConstructorArguments[0];
             var deviceFields = typeof(ENTITY).GetProperties();
-
             var filterFields = filter.GetType().GetProperties();
 
             const string AND_STR = " AND ";
@@ -127,8 +126,6 @@ namespace Service.Implementation
                 .ToList()
                 .Select(x => createDataInstance(x))
                 .ToList();
-            //return res;
-
 
             var a = new Page<DATA, ENTITY>()
             {

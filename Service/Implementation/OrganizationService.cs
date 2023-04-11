@@ -1,4 +1,5 @@
 ﻿using DataForwardingWeb.DTO.Filter;
+using DataForwardingWeb.Repository.Base;
 using Domain;
 using Domain.Enum;
 using DTO;
@@ -9,7 +10,7 @@ using Repository.Repositores.Interfaces;
 
 namespace Service.Implementation
 {
-    public class OrganizationService : IReadWriteService<OrganizationData, Organization>
+    public class OrganizationService : FilterService<OrganizationData, Organization>,IReadWriteService<OrganizationData, Organization>
     {
         private readonly IOrganizationRepository _organizationRepository;
 
@@ -24,14 +25,14 @@ namespace Service.Implementation
             _organizationRepository.SaveChanges();
             return new OrganizationData(organization);
         }
-        public Data<Organization> read(long id)
+        public override Data<Organization> read(long id)
         {
             return new OrganizationData(_organizationRepository
                 .GetAll()
                 .FirstOrDefault(x => x.Id.Equals(id))
             ?? throw new Exception($"Organization with {id} not found"));
         }
-        public Page<OrganizationData, Organization> read(int number, int size)
+        public override Page<OrganizationData, Organization> read(int number, int size)
         {
             long totalCount = _organizationRepository.GetAll().Count();
             return new Page<OrganizationData, Organization>(
@@ -47,23 +48,7 @@ namespace Service.Implementation
                 .ToList() ?? new List<OrganizationData>()
                 );
         }
-        public Page<OrganizationData, Organization> readFilter(FilterModel<Organization> filter, int number, int size)
-        {
-            //var filterService = new FilterService<Organization>();
-            //var res = filterService.Read(filter, _organizationRepository)
-            //.Select(x => new OrganizationData(x)).ToList()
-            //    ?? new List<OrganizationData>();
 
-            //return new Page<OrganizationData, Organization>()
-            //{
-            //    Size = res.Count,
-            //    items = res,
-            //    Number = res.Count,
-            //    TotalCount = res.Count,
-            //    TotalPages = res.Count
-            //};
-            return null;
-        }
         public void remove(long id)
         {
             var organization = _organizationRepository.GetAll().FirstOrDefault(x => x.Id.Equals(id))
@@ -124,6 +109,11 @@ namespace Service.Implementation
         Task<Data<Organization>> IReadWriteService<OrganizationData, Organization>.create(IModel<Organization> model)
         {
             throw new NotImplementedException();
+        }
+
+        public override IRepository<Organization> GetRepository()
+        {
+            return _organizationRepository;
         }
     }
 }

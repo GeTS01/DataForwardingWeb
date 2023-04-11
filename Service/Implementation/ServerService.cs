@@ -1,4 +1,5 @@
 ﻿using DataForwardingWeb.DTO.Filter;
+using DataForwardingWeb.Repository.Base;
 using Domain;
 using Domain.Enum;
 using DTO;
@@ -9,7 +10,7 @@ using Repository.Repositores.Interfaces;
 
 namespace Service.Implementation
 {
-    public class ServerService : IReadWriteService<ServerData, Server>
+    public class ServerService : FilterService<ServerData, Server>, IReadWriteService<ServerData, Server>
     {
         private readonly IServerRepository _serverRepository;
         private readonly IOrganizationRepository _organizationRepository;
@@ -36,7 +37,7 @@ namespace Service.Implementation
             return new ServerData(server);
         }
 
-        public Data<Server> read(long id)
+        public override Data<Server> read(long id)
         {
             return new ServerData(_serverRepository
                 .GetAll()
@@ -44,7 +45,7 @@ namespace Service.Implementation
              ?? throw new Exception($"Server with {id} not found"));
         }
 
-        public Page<ServerData, Server> read(int number, int size)
+        public override Page<ServerData, Server> read(int number, int size)
         {
             long totalCount = _serverRepository
                 .GetAll()
@@ -62,23 +63,7 @@ namespace Service.Implementation
                 );
         }
 
-        public Page<ServerData, Server> readFilter(FilterModel<Server> filter, int number, int size)
-        {
-            //var filterService = new FilterService<Server>();
-            //var server = filterService.Read(filter, _serverRepository)
-            //.Select(x => new ServerData(x)).ToList()
-            //    ?? new List<ServerData>();
 
-            //return new Page<ServerData, Server>()
-            //{
-            //    Size = server.Count,
-            //    items = server,
-            //    Number = server.Count,
-            //    TotalCount = server.Count,
-            //    TotalPages = server.Count
-            //};
-            return null;
-        }
 
         public void remove(long id)
         {
@@ -149,6 +134,11 @@ namespace Service.Implementation
             return _serverRepository
                 .GetAll()
                 .ToList();
+        }
+
+        public override IRepository<Server> GetRepository()
+        {
+            return _serverRepository;
         }
     }
 }

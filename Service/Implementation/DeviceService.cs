@@ -124,9 +124,7 @@ namespace DataForwardingWeb.Service.Implementation
                 .GetAll()
                 .Where(x => x.DeviceId == device.Id)
                 .ToList();
-
             return tags;
-
         }
 
         public override IRepository<Device> GetRepository()
@@ -136,7 +134,14 @@ namespace DataForwardingWeb.Service.Implementation
 
         public override Page<DeviceData, Device> read(int number, int size)
         {
-            throw new NotImplementedException();
+            long totalCount = _deviceRepository.GetAll().Count();
+            return new Page<NetworkData, Network>(
+                number,
+                size,
+                totalCount / size,
+                totalCount,
+                _deviceRepository.GetAll().Skip(number * size).Take(size).Select(x => new NetworkData(x)).ToList() ?? new List<NetworkData>()
+                );
         }
     }
 }
