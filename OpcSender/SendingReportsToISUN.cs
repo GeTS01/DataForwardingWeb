@@ -48,7 +48,7 @@ namespace OpcSender
 
         private async Task GetRequestOnDays()
         {
-            string bindingType = "176.98.225.244";
+            string bindingType = "https://176.98.225.244";
             EndpointAddress endpointAddress = new EndpointAddress(bindingType);
 
             var binding = GetBinding2();
@@ -65,24 +65,23 @@ namespace OpcSender
                         },
                         requestInfo = new ServiceReference1.SyncMessageInfo()
                         {
-
+                            messageDate = DateTime.Now,
+                            correlationId="11111",
+                            Code = 200,
                             messageId = "1544911984184",
                             sender = new ServiceReference1.SenderInfo()
                             {
-                                password = "",
+                                password = "112199299597871992E.",
                                 senderId = "Zharas"
                             },
                             routeId = "159",
                             serviceId = "ISUN_Service2",
                             sessionId = "9b569176-73a2-4168-aab2-ObcObaee0314",
                             Password = "112199299597871992E.",
-                            
                         }
                     }
                 }
             });
-
-
 
             List<Request> requests = new List<Request>();
 
@@ -98,11 +97,13 @@ namespace OpcSender
                .ToListAsync();
                 foreach (var tag in tags)
                 {
-                    var tagValues = _tagValueRepository
-                   .GetAll()
+                    var list = _tagValueRepository
+                   .GetAll().Include(x => x.Tag)
                    .Where(tv => tv.Tag.Equals(tag) && tv.Date.Date.Equals(DateTime.UtcNow.Date))
-                   .Average(x => x.Value);
+                   .ToList();
 
+                    var tagValues = list
+                   .Average(x => x.Value);
                     var request = new Request();
 
                     if (tag.Name == "MassaNakopl")
@@ -150,27 +151,10 @@ namespace OpcSender
                 }
             }
             await _requestRepository.SaveChangesAsync();
+
             var htmlResult = HTMLHelper.ToHtmlTable(requests);
             string path = @"C:\Users\Pavel\Desktop\HtmlRequests\RequestAt_" + DateTime.Now.Second + DateTime.Now.Millisecond + ".html";
             File.WriteAllText(path, htmlResult);
-
-            using (var client = new HttpClient())
-            {
-                var json = JsonConvert.SerializeObject(requests);
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("http://176.98.225.244", content);
-                if (response.IsSuccessStatusCode)
-                {
-                    // Request was successfully sent
-                    var responseContent = await response.Content.ReadAsStringAsync();
-                    Console.WriteLine($"Request sent successfully. Response: {responseContent}");
-                }
-                else
-                {
-                    // Request failed to send
-                    Console.WriteLine($"Request failed to send. StatusCode: {response.StatusCode}");
-                }
-            }
         }
     }
 }

@@ -417,10 +417,11 @@ namespace ServiceReference1
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://bip.bee.kz/SyncChannel/v10/Types")]
     public partial class SyncMessageInfo
     {
+        
+
         internal object Password;
         internal object Code;
         private string messageIdField;
-        
         private string correlationIdField;
         
         private string serviceIdField;
@@ -448,7 +449,7 @@ namespace ServiceReference1
                 this.messageIdField = value;
             }
         }
-        
+
         /// <remarks/>
         [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string correlationId
