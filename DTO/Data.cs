@@ -1,7 +1,7 @@
 ﻿using DataForwardingWeb.Domain.Base;
 
 
-namespace DTO
+namespace DTO.Data
 {
     public abstract class Data<T> where T : PersistentObject
     {

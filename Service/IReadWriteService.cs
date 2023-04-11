@@ -1,9 +1,11 @@
 ﻿using DataForwardingWeb.Domain.Base;
+using DTO;
+using DTO.Data;
 
 namespace Service
 {
     public interface IReadWriteService<DATA, ENTITY> : IReadOnlyService<DATA, ENTITY>
-        where DATA : DTO.Data<ENTITY> where ENTITY : PersistentObject
+        where DATA : Data<ENTITY> where ENTITY : PersistentObject
     {
 
 
@@ -12,7 +14,7 @@ namespace Service
     * @param model object with type {@link MODEL}
     * @return Data object with type {@link DATA} that represents {@link ENTITY} data.
     */
-        Task<DTO.Data<ENTITY>> create(DTO.IModel<ENTITY> model);
+        Task<Data<ENTITY>> create(DTO.IModel<ENTITY> model);
 
         /// <summary>
         /// 
@@ -26,6 +28,6 @@ namespace Service
        * @param model
        * @return Data
        */
-        DTO.Data<ENTITY> updateInId(long id, DTO.IModel<ENTITY> model);
+        Data<ENTITY> updateInId(long id, IModel<ENTITY> model);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using DataForwardingWeb.Domain.Base;
 using DTO;
+using DTO.Data;
 
 namespace DataForwardingWeb.DTO.Data
 {

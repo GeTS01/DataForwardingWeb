@@ -4,6 +4,7 @@ using DataForwardingWeb.DTO.Filter;
 using DataForwardingWeb.Repository.Repositores.Interfaces;
 using Domain;
 using DTO;
+using DTO.Data;
 using Microsoft.EntityFrameworkCore;
 using Service;
 using Service.Implementation;

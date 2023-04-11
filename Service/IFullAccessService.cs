@@ -1,8 +1,9 @@
 ﻿using DataForwardingWeb.Domain.Base;
+using DTO.Data;
 
 namespace Service
 {
-    public interface IFullAccessService<DATA, ENTITY> where DATA : DTO.Data<ENTITY> where ENTITY : PersistentObject
+    public interface IFullAccessService<DATA, ENTITY> where DATA : Data<ENTITY> where ENTITY : PersistentObject
     {
         /// <summary>
         /// Delete entity by id

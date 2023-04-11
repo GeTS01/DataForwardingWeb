@@ -1,5 +1,6 @@
 ﻿using DataForwardingWeb.Domain.Base;
 using DataForwardingWeb.Domain.Enum;
+using Domain.Attributes;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain
@@ -10,6 +11,7 @@ namespace Domain
         [Column("name")]
         public string Name { get; set; }
         [Column("own_field")]
+        [FilterMin(1.0)]
         public long Ownfield { get; set; }
 
         [Column("nit_id")]

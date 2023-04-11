@@ -3,6 +3,7 @@ using DataForwardingWeb.DTO.Filter;
 using DataForwardingWeb.Repository.Repositores.Interfaces;
 using Domain;
 using DTO;
+using DTO.Data;
 using Service;
 using System.ComponentModel.DataAnnotations.Schema;
 

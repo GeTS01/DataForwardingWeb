@@ -21,7 +21,7 @@ namespace Storage
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DataForwardingDB;UserId=postgres;Password=123456");
+            optionsBuilder.UseNpgsql("Server=localhost;Port=5432;Database=DataForwardingDb;UserId=postgres;Password=123456");
         }
 
         public async Task<int> SaveChangesAsync()

@@ -1,6 +1,7 @@
 ﻿using DataForwardingWeb.Domain.Base;
 using DataForwardingWeb.DTO.Filter;
 using DTO;
+using DTO.Data;
 
 namespace Service
 {

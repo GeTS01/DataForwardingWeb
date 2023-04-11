@@ -1,21 +1,21 @@
 ﻿using DataForwardingWeb.Domain.Enum;
 using DataForwardingWeb.DTO.Data;
-using DataForwardingWeb.DTO.Filter;
 using DataForwardingWeb.DTO.Model;
+using DataForwardingWeb.Repository.Base;
 using DataForwardingWeb.Repository.Repositores.Interfaces;
 using Domain;
 using DTO;
+using DTO.Data;
 using Service;
 using Service.Implementation;
 using System.Reflection;
 
 namespace DataForwardingWeb.Service.Implementation
 {
-    public class DeviceService : IFullAccessService<DeviceData, Device>
+    public class DeviceService : FilterService<DeviceData, Device>, IFullAccessService<DeviceData, Device>
     {
         private readonly IDeviceRepository _deviceRepository;
         private readonly ITagRepository _tagRepository;
-
 
         public DeviceService(IDeviceRepository deviceRepository, ITagRepository tagRepository)
         {
@@ -47,23 +47,10 @@ namespace DataForwardingWeb.Service.Implementation
         }
 
         // Метод для нахождения записи в базе
-        public Data<Device> read(long id)
+        public override Data<Device> read(long id)
         {
             return new DeviceData(_deviceRepository.GetAll().FirstOrDefault(x => x.Id.Equals(id))
             ?? throw new Exception($"Device with {id} not found"));
-        }
-
-        // Контроллер для нахождения записи в базе в определенном интервалеетод для нахождения записи в базе в определенном интервале
-        public Page<DeviceData, Device> read(int number, int size)
-        {
-            long totalCount = _deviceRepository.GetAll().Count();
-            return new Page<DeviceData, Device>(
-                number,
-                size,
-                totalCount / size,
-                totalCount,
-                _deviceRepository.GetAll().Skip(number * size).Take(size).Select(x => new DeviceData(x)).ToList() ?? new List<DeviceData>()
-                );
         }
 
         // Метод для удаления записи в базе
@@ -94,23 +81,6 @@ namespace DataForwardingWeb.Service.Implementation
             _deviceRepository.Update(device);
             _deviceRepository.SaveChangesAsync();
             return new DeviceData(device);
-        }
-
-        public Page<DeviceData, Device> readFilter(FilterModel<Device> filter, int number, int size)
-        {
-            //var filterService = new FilterService<DeviceData Device>;
-            //var res = filterService.Read(filter, _deviceRepository)
-            //.Select(x => new DeviceData(x)).ToList()
-            //    ?? new List<DeviceData>();
-            //return new Page<DeviceData, Device>()
-            //{
-            //    Size = res.Count,
-            //    items = res,
-            //    Number = res.Count,
-            //    TotalCount = res.Count,
-            //    TotalPages = res.Count
-            //};
-            return null;
         }
 
         private bool MinExpression(PropertyInfo ff, PropertyInfo deviceField, Device device)
@@ -157,6 +127,16 @@ namespace DataForwardingWeb.Service.Implementation
 
             return tags;
 
+        }
+
+        public override IRepository<Device> GetRepository()
+        {
+            return _deviceRepository;
+        }
+
+        public override Page<DeviceData, Device> read(int number, int size)
+        {
+            throw new NotImplementedException();
         }
     }
 }

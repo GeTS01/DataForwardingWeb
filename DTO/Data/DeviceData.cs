@@ -1,6 +1,6 @@
 ﻿using DataForwardingWeb.Domain.Enum;
 using Domain;
-using DTO;
+using DTO.Data;
 
 namespace DataForwardingWeb.DTO.Data
 {
